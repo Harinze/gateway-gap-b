@@ -4,9 +4,9 @@ import express from 'express';
 import cors from 'cors';
 import  { Request, Response } from 'express';
 import connectDB from './db/db';
-import registerRoute from "../src/routes/index";
-import addDeviceRoute from "../src/routes/index";
-import getAllGatewaysDataRoute from "../src/routes/index";
+import registerRoute from "./routes/index";
+import addDeviceRoute from "./routes/index";
+import getAllGatewaysDataRoute from "./routes/index";
 
 dotenv.config();
 connectDB()
@@ -20,8 +20,8 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/', registerRoute);
-// app.use('/', addDeviceRoute);
-// app.use("/", getAllGatewaysDataRoute)
+app.use('/', addDeviceRoute);
+app.use("/", getAllGatewaysDataRoute)
 
 app.get('/', (_req: Request, res: Response) => {
   res.send('Hello, This is the getway tracking backend!');
