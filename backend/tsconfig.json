@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "strict": true,
+    "types": ["node"], // Include node types for TypeScript
+    "lib": ["es6"],
+    "esModuleInterop": true, // Allows default imports from modules with no default export
+    "skipLibCheck": true,   // Skip type checking of declaration files
+    "forceConsistentCasingInFileNames": true,  // Ensures that the casing of referenced file names matches the casing of the actual file names
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist" 
+  ],
+ 
+}
