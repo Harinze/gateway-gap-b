@@ -8,5 +8,4 @@ router.post('/savedevice', saveDevice);
 
 router.get("/getalldata", getAllGatewaysData)
 router.get("/getalldata/:serialNumber", getUserDetails)
-
 export default router; 

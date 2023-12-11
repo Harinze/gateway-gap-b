@@ -20,8 +20,8 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/', registerRoute);
-app.use('/', addDeviceRoute);
-app.use("/", getAllGatewaysDataRoute)
+// app.use('/', addDeviceRoute);
+// app.use("/", getAllGatewaysDataRoute)
 
 app.get('/', (_req: Request, res: Response) => {
   res.send('Hello, This is the getway tracking backend!');
