@@ -30,6 +30,6 @@ const DeviceSchema = new mongoose_1.Schema({
     vendor: String,
     status: Boolean,
     createdAt: Date
-});
+}, { timestamps: true });
 const Device = mongoose_1.default.model('Device', DeviceSchema);
 exports.default = Device;

@@ -1,12 +1,9 @@
-
-import dotenv from 'dotenv';
-import express from 'express';
-import cors from 'cors';
 import  { Request, Response } from 'express';
+import express from 'express';
+import dotenv from 'dotenv';
+import cors from 'cors';
 import connectDB from './db/db';
-import registerRoute from "./routes/index";
-import addDeviceRoute from "./routes/index";
-import getAllGatewaysDataRoute from "./routes/index";
+import routes from "./routes/index";
 
 dotenv.config();
 connectDB()
@@ -19,12 +16,10 @@ const port = process.env.PORT
 app.use(cors());
 app.use(express.json());
 
-app.use('/', registerRoute);
-app.use('/', addDeviceRoute);
-app.use("/", getAllGatewaysDataRoute)
+app.use('/', routes);
 
 app.get('/', (_req: Request, res: Response) => {
-  res.send('Hello, This is the getway tracking backend!');
+  res.send('Hello, This is inform you that backend of device gateway app is up and running!');
 });
 
 app.listen(port, () => {
@@ -32,4 +27,4 @@ app.listen(port, () => {
 });
 
 
-export default app;
+//export default app;

@@ -1,3 +1,4 @@
+import { timeStamp } from 'console';
 import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IDevice extends Document {
@@ -16,7 +17,7 @@ const DeviceSchema: Schema = new Schema(
     status: Boolean,
     createdAt: Date
   },
-  
+  { timestamps: true }
 );
 
 const Device = mongoose.model<IDevice>('Device', DeviceSchema);

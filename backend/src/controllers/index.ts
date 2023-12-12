@@ -37,11 +37,14 @@ export const registerGateway = async (req: Request, res: Response) => {
   }
 };
 
+
 export const saveDevice = async (req: Request, res: Response) => {
-  const { serialNumber, uid, vendor, status } = req.body;
+  let { serialNumber, uid, vendor, status } = req.body;
 
   try {
-  
+    
+    serialNumber = serialNumber.toLowerCase();
+
     let gateway = await Gateway.findOne({ serialNumber });
 
     if (!gateway) {
@@ -82,6 +85,7 @@ export const saveDevice = async (req: Request, res: Response) => {
   }
 };
 
+
 export const getAllGatewaysData = async (_req:Request, res:Response) => {
   try {
     const users = await Gateway.find().populate('devices');
@@ -104,7 +108,7 @@ export const getUserDetails = async (req: Request, res: Response) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    res.status(200).json({ user });
+    res.status(200).json( user );
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal Server Error' });

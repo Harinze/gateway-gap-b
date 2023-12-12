@@ -46,8 +46,9 @@ const registerGateway = (req, res) => __awaiter(void 0, void 0, void 0, function
 });
 exports.registerGateway = registerGateway;
 const saveDevice = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { serialNumber, uid, vendor, status } = req.body;
+    let { serialNumber, uid, vendor, status } = req.body;
     try {
+        serialNumber = serialNumber.toLowerCase();
         let gateway = yield gateway_1.default.findOne({ serialNumber });
         if (!gateway) {
             return res.status(400).json({ message: 'Serial number not found' });
@@ -98,7 +99,7 @@ const getUserDetails = (req, res) => __awaiter(void 0, void 0, void 0, function*
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
-        res.status(200).json({ user });
+        res.status(200).json(user);
     }
     catch (error) {
         console.error(error);
