@@ -15,7 +15,7 @@ const DeviceSchema: Schema = new Schema(
     uid: Number,
     vendor: String,
     status: Boolean,
-    createdAt: Date
+    createdAt: Date,
   },
   { timestamps: true }
 );

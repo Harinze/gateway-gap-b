@@ -38,11 +38,59 @@ export const registerGateway = async (req: Request, res: Response) => {
 };
 
 
-export const saveDevice = async (req: Request, res: Response) => {
-  let { serialNumber, uid, vendor, status } = req.body;
+// export const saveDevice = async (req: Request, res: Response) => {
+//   let { serialNumber, uid, vendor, status} = req.body
 
-  try {
+//   try {
     
+//     serialNumber = serialNumber.toLowerCase();
+
+//     let gateway = await Gateway.findOne({ serialNumber });
+
+//     if (!gateway) {
+//       return res.status(400).json({ message: 'Serial number not found' });
+//     }
+
+//     const uidExists = await Gateway.findOne({
+//       serialNumber,
+//       'devices.uid': uid,
+//     });
+
+//     if (uidExists) {
+//       return res
+//         .status(400)
+//         .json({ message: 'Device with the same uid already exists for this serialNumber' });
+//     }
+
+//     if (gateway.devices.length >= 10) {
+//       return res.status(400).json({ message: 'Maximum number of devices reached for this user' });
+//     }
+    
+//     const newDevice = new Device({ uid, vendor, status, serialNumber});
+    
+//     gateway.devices.push(newDevice);
+
+//     gateway.status = gateway.devices.length === 10;
+ 
+//     await gateway.save();
+
+//     res.status(200).json({
+//       message: 'Device saved successfully',
+//       newDevice,
+//       status: gateway.status,
+//       serial:newDevice.serialNumber
+//     });
+//   } catch (error: any) {
+//     console.error(error);
+//     res.status(500).json({ message: `${error}` });
+//   }
+// };
+
+
+export const saveDevice = async (req: Request, res: Response) => {
+  try {
+    let { serialNumber, uid, vendor, status } = req.body;
+
     serialNumber = serialNumber.toLowerCase();
 
     let gateway = await Gateway.findOne({ serialNumber });
@@ -51,10 +99,7 @@ export const saveDevice = async (req: Request, res: Response) => {
       return res.status(400).json({ message: 'Serial number not found' });
     }
 
-    const uidExists = await Gateway.findOne({
-      serialNumber,
-      'devices.uid': uid,
-    });
+    const uidExists = gateway.devices.some((device) => device.uid === uid);
 
     if (uidExists) {
       return res
@@ -65,25 +110,30 @@ export const saveDevice = async (req: Request, res: Response) => {
     if (gateway.devices.length >= 10) {
       return res.status(400).json({ message: 'Maximum number of devices reached for this user' });
     }
-    
-    const newDevice = new Device({ uid, vendor, status, serialNumber});
-    
+
+    const previousDeviceCount = gateway.devices.length;
+
+    const newDevice = new Device({ uid, vendor, status, serialNumber });
+
     gateway.devices.push(newDevice);
 
-    gateway.status = gateway.devices.length === 10;
-
     await gateway.save();
+
+    const isDeviceAdded = gateway.devices.length > previousDeviceCount;
 
     res.status(200).json({
       message: 'Device saved successfully',
       newDevice,
-      status: gateway.status,
+      status: isDeviceAdded,
+      serial: newDevice.serialNumber,
     });
   } catch (error: any) {
     console.error(error);
-    res.status(500).json({ message: `${error}` });
+    res.status(500).json({ message: `${error}`, isDeviceAdded: false });
   }
 };
+
+
 
 
 export const getAllGatewaysData = async (_req:Request, res:Response) => {
